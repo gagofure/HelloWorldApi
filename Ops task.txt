@@ -1,0 +1,10 @@
+
+-Impliment single identity using Azure AD (one credential for all our services) for easy management
+
+-Impliment just in Time and conditional access for all server access. Enfore MFA organization wide 
+
+- Securely Create, Store & Retrieve Secrets(Azure key vuault)
+
+- Natively Integrate with DevOps Toolchain
+
+- Treat Appliactions as identities

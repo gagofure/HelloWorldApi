@@ -1,0 +1,16 @@
+{
+  "name": "users-api",
+  "version": "1.0.0",
+  "description": "A simple Hello World API protected with Auth0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Ogaga Agofure (godspower.agofure@gmail.com)",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express-openid-connect": "^2.5.1"
+  }
+}
