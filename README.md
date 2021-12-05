@@ -29,13 +29,6 @@ docker build -t imageName:tag /PATH
 
 docker run --name container-name -p 3000:3000/tcp -d imageName:tag
 ```
-# OR
-
-## From Azure Container Registry
-
-```bash
-docker run --name your-container-name -p 3000:3000/tcp -d mycont131.azurecr.io/helloworldapi:latest
-```
 
 ## Test the endpoint on a browser
 
