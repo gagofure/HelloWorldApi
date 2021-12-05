@@ -8,4 +8,4 @@ Before creating the GitHub Actions workflow, you will first need to complete the
 
 4. Create and Azure Container registry
 
-commit to GitHub 
+Commit to GitHub 
