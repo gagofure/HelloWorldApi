@@ -1,7 +1,6 @@
 node_modules 
 Dockerfile
 .github
-.env
 README.md
 Ops task.txt
 Deployment pipeline.txt
