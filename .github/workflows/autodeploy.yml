@@ -1,19 +1,17 @@
-name: Docker Image to Docker Hub
-
 on:
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    
+name: Docker Image to Docker Hub
 
 jobs:
 
   build:
-
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
     steps:
-
     # - name: Checkout code
     #   uses: actions/checkout@v2
 
