@@ -1,49 +1,36 @@
-name: Docker Image CI
+on: [push]
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+name: Docker Image to ACR
 
 jobs:
-
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
+    # checkout the repo
+    - name: 'Checkout Github Action' 
+      uses: actions/checkout@master
+    
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: mycont131.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - run: |
+        docker build . -t mycont131.azurecr.io/helloworldapi:${{ github.sha }}
+        docker push mycont131.azurecr.io/helloworldapi:${{ github.sha }} 
+      
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'hello-world-api'
+        images: 'mycont131.azurecr.io/helloworldapi:${{ github.sha }}'
+    
+    - name: Azure logout
+      run: |
+        az logout
 
-    # - name: Checkout code
-    #   uses: actions/checkout@v2
-
-      # setup Docker buld action
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
-
-     - name: Login to Docker Hub
-       uses: docker/login-action@v1
-       with:
-          username: ${{ KEYS.DOCKER_USERNAME }}
-          password: ${{ KEYS.DOCKER_ACCESS_TOKEN }}
-
-     - name: Build and push
-       uses: docker/build-push-action@v2
-       with:
-          BASE_URL: ${{ KEYS.BASE_URL }}
-          CLIENT_ID: ${{ KEYS.CLIENT_ID }}
-          ISSUER_BASE_URL: ${{ KEYS.ISSUER_BASE_URL }}
-          SECRET: ${{ KEYS.SECRET }}
-
-          context: ./
-          file: ./Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags:  ${{ KEYS.DOCKER_USERNAME }}/helloworlapi:london
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
-               
-     - name: Image digest 
-       
-       run: echo ${{ steps.docker_build.outputs.digest }}
