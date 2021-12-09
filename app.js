@@ -1,7 +1,7 @@
-const express = require('express')
+import express from 'express';
 const app = express();
 require('dotenv').config();
-const { auth, requiresAuth } = require('express-openid-connect');
+import { auth, requiresAuth } from 'express-openid-connect';
 
 app.use(
     auth({
