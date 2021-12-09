@@ -1,4 +1,4 @@
-name: Docker Image to Dpcker Hub
+name: Build & Push Image to Docker Hub
 
 on:
   push:
@@ -28,8 +28,8 @@ jobs:
               ISSUER_BASE_URL: ${{ secrets.ISSUER_BASE_URL }}
               SECRET: ${{ secrets.SECRET }}
           with:         
-              context: ./
-              file: ./Dockerfile
+              context: ./app
+              file: ./app/Dockerfile
               builder: ${{ steps.buildx.outputs.name }}
               push: true
               tags:  ${{ secrets.DOCKER_USERNAME }}/helloworlapi:london
