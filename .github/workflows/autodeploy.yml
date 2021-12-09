@@ -28,9 +28,9 @@ jobs:
           ISSUER_BASE_URL: ${{ secrets.ISSUER_BASE_URL }}
           SECRET: ${{ secrets.SECRET }}
         with:
-          context: /app
-          file: /app/Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
+          context: ./
+          file: ./Dockerfile
+          builder: ${{ steps.buildx.outputs.name . }}
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/helloworlapi:london
           cache-from: type=local,src=/tmp/.buildx-cache
