@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image to Dpcker Hub
 
 on:
   push:
@@ -23,16 +23,16 @@ jobs:
         - name: Build and push
           uses: docker/build-push-action@v2
           env:
-              BASE_URL: ${{ KEYS.BASE_URL }}
-              CLIENT_ID: ${{ KEYS.CLIENT_ID }}
-              ISSUER_BASE_URL: ${{ KEYS.ISSUER_BASE_URL }}
-              SECRET: ${{ KEYS.SECRET }}
+              BASE_URL: ${{ secrets.BASE_URL }}
+              CLIENT_ID: ${{ secrets.CLIENT_ID }}
+              ISSUER_BASE_URL: ${{ secrets.ISSUER_BASE_URL }}
+              SECRET: ${{ secrets.SECRET }}
           with:         
               context: ./
               file: ./Dockerfile
               builder: ${{ steps.buildx.outputs.name }}
               push: true
-              tags:  ${{ KEYS.DOCKER_USERNAME }}/helloworlapi:london
+              tags:  ${{ secrets.DOCKER_USERNAME }}/helloworlapi:london
               cache-from: type=local,src=/tmp/.buildx-cache
               cache-to: type=local,dest=/tmp/.buildx-cache
                   
