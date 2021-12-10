@@ -28,11 +28,11 @@ jobs:
           ISSUER_BASE_URL: ${{ secrets.ISSUER_BASE_URL }}
           SECRET: ${{ secrets.SECRET }}
         with:
-          context: ./
-          file: ./Dockerfile
+          # context: ./
+          # file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/helloworldapi:berlin
+          tags: ${{ secrets.DOCKER_USERNAME }}/helloworldapi:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
