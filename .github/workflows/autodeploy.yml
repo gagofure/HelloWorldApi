@@ -28,8 +28,8 @@ jobs:
           ISSUER_BASE_URL: ${{ secrets.ISSUER_BASE_URL }}
           SECRET: ${{ secrets.SECRET }}
         with:
-          context: .
-          file: Dockerfile
+          context: ./
+          file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/helloworldapi:berlin
