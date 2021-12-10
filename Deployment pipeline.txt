@@ -1,4 +1,4 @@
-Before creating the GitHub Actions workflow, you will first need to complete the following setup steps
+Before creating the GitHub Actions workflow for Azure, you will first need to complete the following setup steps
 
 1. Create an Azure App Service plan
 
@@ -7,7 +7,3 @@ Before creating the GitHub Actions workflow, you will first need to complete the
 3. Configure an Azure publish profile and create an AZURE_WEBAPP_PUBLISH_PROFILE secret on the GitHub repo
 
 4. Create an Azure Container registry
-
-Commit to GitHub 
-
-Run GitHub Action
