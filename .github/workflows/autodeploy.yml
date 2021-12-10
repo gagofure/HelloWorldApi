@@ -28,7 +28,7 @@ jobs:
           ISSUER_BASE_URL: ${{ secrets.ISSUER_BASE_URL }}
           SECRET: ${{ secrets.SECRET }}
         with:
-          context: ./
+          context: .
           file: Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
