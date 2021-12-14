@@ -1,36 +1,51 @@
-on: [push]
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Docker Image to ACR
+name: Build and deploy container app to Azure Web App - theuserapi
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    steps:
-    # checkout the repo
-    - name: 'Checkout Github Action' 
-      uses: actions/checkout@master
-    
-    - name: 'Login via Azure CLI'
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    
-    - uses: azure/docker-login@v1
-      with:
-        login-server: mycont131.azurecr.io
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-    
-    - run: |
-        docker build . -t mycont131.azurecr.io/helloworldapi:${{ github.sha }}
-        docker push mycont131.azurecr.io/helloworldapi:${{ github.sha }} 
-      
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'hello-world-api'
-        images: 'mycont131.azurecr.io/helloworldapi:${{ github.sha }}'
-    
-    - name: Azure logout
-      run: |
-        az logout
 
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to container registry
+        uses: docker/login-action@v1
+        with:
+          registry: https://mycont131.azurecr.io/
+          username: ${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}
+          password: ${{ secrets.AzureAppService_ContainerPassword_d27aa5de684544808ff7fa7a16215735 }}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}
+          file: ./Dockerfile
+          
+    deploy:
+      runs-on: ubuntu-latest
+      needs: build
+      environment:
+        name: 'production'
+        url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+      steps:
+        - name: Deploy to Azure Web App
+          id: deploy-to-webapp
+          uses: azure/webapps-deploy@v2
+          with:
+            app-name: 'theuserapi'
+            slot-name: 'production'
+            publish-profile: ${{ secrets.AzureAppService_PublishProfile_b412d72beff745b8af589a59e23cf01a }}
+            images: 'mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}'
