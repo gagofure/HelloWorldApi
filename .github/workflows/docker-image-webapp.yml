@@ -6,7 +6,10 @@ name: Build and deploy container app to Azure Web App - theuserapi
 on:
   push:
     branches:
-      - develop
+      - master
+  pull_request:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
@@ -32,12 +35,12 @@ jobs:
           push: true
           tags: mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}
           file: ./Dockerfile
-          
+
     deploy:
       runs-on: ubuntu-latest
       needs: build
       environment:
-        name: 'production'
+        name: "production"
         url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
       steps:
@@ -45,7 +48,7 @@ jobs:
           id: deploy-to-webapp
           uses: azure/webapps-deploy@v2
           with:
-            app-name: 'theuserapi'
-            slot-name: 'production'
+            app-name: "theuserapi"
+            slot-name: "production"
             publish-profile: ${{ secrets.AzureAppService_PublishProfile_b412d72beff745b8af589a59e23cf01a }}
-            images: 'mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}'
+            images: "mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}"
