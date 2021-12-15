@@ -26,14 +26,14 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: https://mycont131.azurecr.io/
-          username: ${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}
-          password: ${{ secrets.AzureAppService_ContainerPassword_d27aa5de684544808ff7fa7a16215735 }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}
+          tags: mycont131.azurecr.io/${{ secrets.REGISTRY_USERNAME }}/helloworldapi:${{ github.sha }}
           file: ./Dockerfile
 
   deploy:
@@ -51,4 +51,4 @@ jobs:
           app-name: "theuserapi"
           slot-name: "production"
           publish-profile: ${{ secrets.AzureAppService_PublishProfile_b412d72beff745b8af589a59e23cf01a }}
-          images: "mycont131.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_d237207eabcf469182a01793f1c48441 }}/helloworldapi:${{ github.sha }}"
+          images: "mycont131.azurecr.io/${{ secrets.REGISTRY_USERNAME }}/helloworldapi:${{ github.sha }}"
