@@ -15,12 +15,12 @@ jobs:
         uses: actions/checkout@master
 
       - name: "Login via Azure CLI"
-        uses: azure/login@v1
+        uses: azure/CLI@v1
         with:
           azcliversion: 2.30.0
           creds: ${{secrets.AZURE_CREDENTIALS}}
           allow-no-subscriptions: false
-       
+
       - uses: azure/docker-login@v1
         with:
           login-server: mycont131.azurecr.io
