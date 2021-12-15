@@ -17,6 +17,7 @@ jobs:
       - name: "Login via Azure CLI"
         uses: azure/login@v1
         with:
+          azcliversion: 2.30.0
           creds: ${{secrets.AZURE_CREDENTIALS}}
           allow-no-subscriptions: false
        
