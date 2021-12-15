@@ -42,14 +42,13 @@ jobs:
     environment:
       name: "production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-  
+
     steps:
       - name: "Login via Azure CLI"
-        uses: azure/CLI@v1
+        uses: azure/login@v1.1
         with:
-         azcliversion: 2.30.0
-         creds: ${{secrets.AZURE_CREDENTIALS}}
-         allow-no-subscriptions: false
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+          allow-no-subscriptions: false
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
