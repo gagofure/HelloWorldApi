@@ -3,11 +3,11 @@ FROM node:alpine
 WORKDIR /app
 
 # Install app dependencies
-ADD package*.json ./
-RUN npm install
+COPY package*.json ./
+RUN npm install  --only=production
 
 #Bundle app source
-ADD . .
+COPY . .
 
-EXPOSE 3000
+EXPOSE $PORT
 CMD [ "node", "app.js" ]
